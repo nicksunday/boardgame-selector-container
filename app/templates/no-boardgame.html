@@ -2,10 +2,7 @@
 
 {% block styles %}
 {{ super() }}
-	<style>
-		body { background: #e8f1f9; }
-                h3 { text-align: center; }
-	</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 {% endblock %}
 
 
@@ -16,7 +13,7 @@ No Boardgame Found
 
 {% block content %}
 
-<div class="container">
+<div class="message-box centered">
    <h3>{{ message }}</h3>
 </div>
 
