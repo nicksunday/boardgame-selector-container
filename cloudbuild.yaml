@@ -27,7 +27,6 @@ steps:
       - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$_REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
-      - '--to-latest'
     id: Deploy
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
