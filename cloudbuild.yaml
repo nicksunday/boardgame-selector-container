@@ -1,0 +1,49 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--no-cache'
+      - '-t'
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+      - .
+      - '-f'
+      - Dockerfile
+    id: Build
+
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+    id: Push
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    entrypoint: gcloud
+    args:
+      - run
+      - services
+      - update
+      - $_SERVICE_NAME
+      - '--platform=$_PLATFORM'
+      - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+      - '--region=$_DEPLOY_REGION'
+      - '--quiet'
+    id: Deploy
+
+images:
+  - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+
+options:
+  substitutionOption: ALLOW_LOOSE
+
+substitutions:
+  _SERVICE_NAME: bg-selector
+  _DEPLOY_REGION: us-central1
+  _LABELS: gcb-trigger-id=04b9b003-0b27-4e1a-808c-fd947b42391b
+  _TRIGGER_ID: 04b9b003-0b27-4e1a-808c-fd947b42391b
+  _GCR_HOSTNAME: us.gcr.io
+  _PLATFORM: managed
+
+tags:
+  - gcp-cloud-build-deploy-cloud-run
+  - gcp-cloud-build-deploy-cloud-run-managed
+  - bg-selector
