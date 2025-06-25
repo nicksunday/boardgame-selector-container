@@ -30,6 +30,16 @@ steps:
       - '--to-latest'
     id: Deploy
 
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    entrypoint: gcloud
+    args:
+      - run
+      - services
+      - update-traffic
+      - $_SERVICE_NAME
+      - '--to-latest'
+    id: UpdateTraffic
+
 images:
   - '$_GCR_HOSTNAME/$PROJECT_ID/$_REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
 
