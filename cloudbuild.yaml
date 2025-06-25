@@ -27,7 +27,7 @@ steps:
       - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$_REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
-      - '--update-traffic=latest=100'
+      - '--to-latest'
     id: Deploy
 
 images:
