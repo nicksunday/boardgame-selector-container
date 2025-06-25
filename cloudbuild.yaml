@@ -36,6 +36,7 @@ steps:
       - services
       - update-traffic
       - $_SERVICE_NAME
+      - '--region=$_DEPLOY_REGION'
       - '--to-latest'
     id: UpdateTraffic
 
